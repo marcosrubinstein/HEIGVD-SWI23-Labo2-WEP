@@ -11,12 +11,13 @@ __email__ 		= "melissa.gehring@heig-vd.ch, maelle.vogel@heig-vd.ch, maxim.golay@
 __status__ 		= "Prototype"
 
 from scapy.all import *
+from scapy.layers.dot11 import RadioTap
 import binascii
 from rc4 import RC4
 
 # Message à chiffrer and fragments
 message = b'\xaa\xaa\x03\x00\x00\x00\x08\x06\x00\x01\x08\x00\x06\x04\x00\x01\x90\x27\xe4\xea\x61\xf2\xc0\xa8\x01\x64\x00\x00\x00\x00\x00\x00\xc0\xa8\x01\xc8'
-fragments = [message[i:i+2] for i in range(0, len(message), 2)]
+fragments = [message[i:i+int(len(message)/3)] for i in range(0, len(message), int(len(message)/3))]
 
 #Cle wep AA:AA:AA:AA:AA
 key= b'\xaa\xaa\xaa\xaa\xaa'
@@ -48,6 +49,9 @@ for i in range(len(fragments)):
     arp.SC = i
     # More fragment à 1 si ce n'est pas le dernier fragment
     arp.FCfield.MF = i < (len(fragments) - 1)
+    # on supprime la longueur du RadioTap pour que Scapy la calcule
+    arp[RadioTap].len = None
 
     # on append le fragment à la trame
     wrpcap('arp-encrypt-fragment.cap', arp, append=(i != 0))
+
