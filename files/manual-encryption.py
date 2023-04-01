@@ -23,16 +23,14 @@ snap_packet = SNAP(OUI=0, code=0x0806) / arp_packet
 
 llc_packet = LLC(dsap=0xaa, ssap=0xaa, ctrl=0x03) / snap_packet
 
-icv = struct.pack('I', binascii.crc32(bytes(llc_packet)))
+icv = struct.pack('!L', binascii.crc32(bytes(llc_packet)))
 
-data = llc_packet / icv
+data_encrypted = keystream.crypt(bytes(llc_packet) + icv)
 
-#data_encrypted = keystream.crypt(bytes(data))
+wep_header = Dot11WEP(iv=iv, keyid=0x00, wepdata=data_encrypted)
 
-#wep_header = Dot11WEP(iv=iv, keyid=0x00)
+dot11 = Dot11(type=2, addr1="aa:bb:cc:dd:ee:ff", addr2="00:11:22:33:44:55", addr3="ff:ff:ff:ff:ff:ff", FCfield=['to-DS', 'protected']) / wep_header
 
-dot11 = Dot11(type=2, addr1="aa:bb:cc:dd:ee:ff", addr2="00:11:22:33:44:55", addr3="ff:ff:ff:ff:ff:ff", FCfield=['to-DS']) #/ wep_header , 'protected'
+packet = RadioTap() / dot11 / data_encrypted
 
-radioTapWEP = RadioTap() / dot11 / llc_packet #data_encrypted
-
-wrpcap("temp.cap", radioTapWEP)
+wrpcap("temp.cap", packet)
