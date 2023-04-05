@@ -27,13 +27,17 @@ arp = rdpcap('arp.cap')[0]
 seed = arp.iv+key
 
 # Message à chiffrer
+# Il s'agit du même message que dans manual_encryption mais avec des bytes
+# modifiées en '0xca0xfe'
 message_plain = b'\xaa\xaa\x03\x00\x00\x00\x08\x06\x00\x01\x08\x00\x06\x04\x00\x01\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xca\xfe\xca'
 
+# Calcul de l'ICV qui est un simple CRC32
 icv_plain = binascii.crc32(message_plain).to_bytes(4, byteorder='little')
 
 print("Message plain: ", message_plain)
 print("Computed ICV: ", icv_plain)
 
+# Construction de la payload qui est le message concaténé à l'ICV
 payload_plain = message_plain + icv_plain
 
 # chiffrement rc4

@@ -65,6 +65,8 @@ tout est ensuite affiché.
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
 Vous devrez donc créer votre message, calculer le contrôle d’intégrité (ICV), et les chiffrer (voir slides du cours pour les détails).
 
+Script 'files/manual-encryption.py'
+Fichier généré par le script: 'files/encrapted.pcap'
 
 ### Quelques éléments à considérer :
 
@@ -88,6 +90,12 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 - Pour vérifier que cette partie fonctionne, vous pouvez importer vos fragments dans Wireshark, qui doit être capable de les recomposer
 - Pour un test encore plus intéressant (optionnel), vous pouvez utiliser un AP (disponible sur demande) et envoyer vos fragments. Pour que l’AP accepte vous données injectées, il faudra faire une « fake authentication » que vous pouvez faire avec `aireplay-ng`
 - Si l’AP accepte vos fragments, il les recomposera et les retransmettra en une seule trame non-fragmentée !
+
+
+Résultats:
+
+Script: 'files/manual-fragmentation.py'
+Fichier créé par le script: 'files/fragmented.pcap'
 
 ## Livrables
 
