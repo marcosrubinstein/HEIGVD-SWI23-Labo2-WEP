@@ -29,12 +29,36 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
 - Ouvrir le fichier de capture [arp.cap](files/arp.cap) avec Wireshark
    
 - Utiliser Wireshark pour déchiffrer la capture. Pour cela, il faut configurer dans Wireshark la clé de chiffrement/déchiffrement WEP (Dans Wireshark : Preferences&rarr;Protocols&rarr;IEEE 802.11&rarr;Decryption Keys). Il faut également activer le déchiffrement dans la fenêtre IEEE 802.11 (« Enable decryption »). Vous trouverez la clé dans le script Python [manual-decryption.py](files/manual-decryption.py).
+
+Résultat : 
    
+![Déchiffrement avec Wireshark](figures/1_wireshark_decrypt.png)
+
 - Exécuter le script avec `python manual-decryption.py`
+
+Résultat du script :
+
+```
+$ python manual-decryption.py 
+Text: aaaa03000000080600010800060400019027e4ea61f2c0a80164000000000000c0a801c8
+icv:  cc88cbb2
+icv(num): (3431517106,)
+```
+
    
 - Comparer la sortie du script avec la capture text déchiffrée par Wireshark
+
+On peut constater que les sorties sont similaires.
    
 - Analyser le fonctionnement du script
+
+Analyse du script manual-decryption.py :
+
+Le script charge le fichier arp.cap puis initialise la seed qui est composée de
+l'IV concaténée à la clé WEP, qui est 'AA:AA:AA:AA:AA' (sans les ':'). Le script
+récupère ensuite l'ICV qui est envoyé avec la trame mais chiffré. Le message
+ainsi que l'ICV sont ensuite passé dans RC4 être déchiffrés grâce à la seed. Le
+tout est ensuite affiché.
 
 ### 2. Chiffrement manuel de WEP
 
