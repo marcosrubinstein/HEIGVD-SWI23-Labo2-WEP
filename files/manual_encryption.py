@@ -24,7 +24,7 @@ from zlib import crc32
 
 def compute_icv(payload):
     # TODO: extract payload if parameter is a packet
-    return crc32(payload)
+    return crc32(payload).to_bytes(4, "little")
 
 
 
@@ -65,7 +65,7 @@ def pkt2bytearray(pkt):
     # str(pkt)  # => explain content
     return bytearray.fromhex(hexstr(pkt, onlyhex=True))
 
-def _encrypt(pkt, key, iv):
+def encrypt(pkt, key, iv):
     # if not iv:
     #     iv = CryptAlgo(...).generate_iv()
     seed = iv + key
@@ -74,7 +74,7 @@ def _encrypt(pkt, key, iv):
     cipher = RC4(seed, streaming=False)
     content_with_icv = (
         content
-        + icv.to_bytes(4, "little")
+        + icv
     )
     ciphertext = cipher.crypt(
         content_with_icv
@@ -83,15 +83,16 @@ def _encrypt(pkt, key, iv):
 
 
 def pkt2dot11wep(pkt, key, iv):
-    ciphertext, icv = _encrypt(pkt, key, iv)
+    ciphertext, icv = encrypt(pkt, key, iv)
     res = Dot11WEP(
         iv=iv,
         wepdata=ciphertext,
-        keyid=0x00,
         icv=icv,
     )
     return res
 
+def demo_arp():
+    return arp(MAC_SRC, "192.168.1.113", MAC_DEST, "192.168.1.118")
 
 ref_pkt = rdpcap('arp.cap')[0]
 save_pkt(ref_pkt, False)
