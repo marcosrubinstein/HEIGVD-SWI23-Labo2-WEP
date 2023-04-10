@@ -54,6 +54,10 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
 Vous devrez donc créer votre message, calculer le contrôle d’intégrité (ICV), et les chiffrer (voir slides du cours pour les détails).
 
+> Voir fichier `manual_encryption.py` (nb: le fichier utilise un `_` au lieu d'un `-` pour pouvoir être importé dans l'exercice 3)
+
+![ex_2](img/ex_2.png)
+
 
 ### Quelques éléments à considérer :
 
@@ -67,6 +71,10 @@ Vous devrez donc créer votre message, calculer le contrôle d’intégrité (IC
 ### 3. Fragmentation
 
 Dans cette partie, vous allez enrichir votre script développé dans la partie précédente pour chiffrer 3 fragments.
+
+> Voir fichier `fragmentation-encryption.py`  (nb: ce script réutilise le script de l'exercice 2)
+
+![ex_3](img/ex_3.png)
 
 ### Quelques éléments à considérer :
 
