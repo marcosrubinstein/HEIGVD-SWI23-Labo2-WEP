@@ -33,6 +33,7 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
   ![wireshark_decrypted_raw](img/wireshark_decrypted_raw.png)
   
 - Exécuter le script avec `python manual-decryption.py`
+
   ![manual_decryption_output](img/manual_decryption_output.png)
   
 - Comparer la sortie du script avec la capture text déchiffrée par Wireshark
