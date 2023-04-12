@@ -27,19 +27,37 @@ Vous allez devoir faire des recherches sur internet pour apprendre à utiliser S
 Dans cette partie, vous allez récupérer le script Python [manual-decryption.py](files/manual-decryption.py). Il vous faudra également le fichier de capture [arp.cap](files/arp.cap) contenant un message arp chiffré avec WEP et la librairie [rc4.py](files/rc4.py) pour générer les keystreams indispensables pour chiffrer/déchiffrer WEP. Tous les fichiers doivent être copiés dans le même répertoire local sur vos machines.
 
 - Ouvrir le fichier de capture [arp.cap](files/arp.cap) avec Wireshark
-   
-- Utiliser Wireshark pour déchiffrer la capture. Pour cela, il faut configurer dans Wireshark la clé de chiffrement/déchiffrement WEP (Dans Wireshark : Preferences&rarr;Protocols&rarr;IEEE 802.11&rarr;Decryption Keys). Il faut également activer le déchiffrement dans la fenêtre IEEE 802.11 (« Enable decryption »). Vous trouverez la clé dans le script Python [manual-decryption.py](files/manual-decryption.py).
-   
+  
+- Utiliser Wireshark pour déchiffrer la capture. Pour cela, il faut configurer dans Wireshark la clé de chiffrement/déchiffrement WEP (Dans Wireshark : Editer &rarr; Preferences&rarr;Protocols&rarr;IEEE 802.11&rarr;Decryption Keys). Il faut également activer le déchiffrement dans la fenêtre IEEE 802.11 (« Enable decryption »). Vous trouverez la clé dans le script Python [manual-decryption.py](files/manual-decryption.py).![wireshark_decrypted](img/wireshark_decrypted.png)
+  
+  ![wireshark_decrypted_raw](img/wireshark_decrypted_raw.png)
+  
 - Exécuter le script avec `python manual-decryption.py`
-   
+
+  ![manual_decryption_output](img/manual_decryption_output.png)
+  
 - Comparer la sortie du script avec la capture text déchiffrée par Wireshark
-   
+  
+  > Wireshark nous fournit une explication textuelle du contenu de la trame en plus de nous proposer le contenu brute.
+  > Le script se contente de déchiffrer la trame et de nous fournir le contenu brute
+  
 - Analyser le fonctionnement du script
+
+  > 1. Lis le fichier `.cap` et récupère le premier (et unique) paquet
+  > 2. Récupère l'IV du paquet et le concatène avec le clef partagée pour obtenir la clef de déchiffrement
+  > 3. On recompose la partie chiffrée en concaténant les données chiffrées avec l'ICV chiffré (l'objet python les a séparé car l'ICV chiffré fait toujours la même taille)
+  > 4. On déchiffre la trame (chiffrement == déchiffrement)
+
+  
 
 ### 2. Chiffrement manuel de WEP
 
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
 Vous devrez donc créer votre message, calculer le contrôle d’intégrité (ICV), et les chiffrer (voir slides du cours pour les détails).
+
+> Voir fichier `manual_encryption.py` (nb: le fichier utilise un `_` au lieu d'un `-` pour pouvoir être importé dans l'exercice 3)
+
+![ex_2](img/ex_2.png)
 
 
 ### Quelques éléments à considérer :
@@ -54,6 +72,10 @@ Vous devrez donc créer votre message, calculer le contrôle d’intégrité (IC
 ### 3. Fragmentation
 
 Dans cette partie, vous allez enrichir votre script développé dans la partie précédente pour chiffrer 3 fragments.
+
+> Voir fichier `fragmentation-encryption.py`  (nb: ce script réutilise le script de l'exercice 2)
+
+![ex_3](img/ex_3.png)
 
 ### Quelques éléments à considérer :
 
