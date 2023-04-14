@@ -115,12 +115,12 @@ correctement la trame :
 
 Un fork du repo original . Puis, un Pull Request contenant :
 
--	Script de chiffrement WEP **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant la trame chiffrée
-  - Capture d’écran de votre trame importée et déchiffré par Wireshark
--	Script de fragmentation **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant les fragments
-  - Capture d’écran de vos trames importées et déchiffrés par Wireshark 
+-	[X] Script de chiffrement WEP **abondamment commenté/documenté**
+  - [X] Fichier pcap généré par votre script contenant la trame chiffrée
+  - [X] Capture d’écran de votre trame importée et déchiffré par Wireshark
+-	[X] Script de fragmentation **abondamment commenté/documenté**
+  - [X] Fichier pcap généré par votre script contenant les fragments
+  - [X] Capture d’écran de vos trames importées et déchiffrés par Wireshark 
 
 -	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant
 
