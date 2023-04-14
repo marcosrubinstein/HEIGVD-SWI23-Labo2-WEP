@@ -71,6 +71,11 @@ Script `files/manual-encryption.py`
 
 Fichier généré par le script: `files/encrypted.pcap`
 
+On peut constater que Wireshark est en mesure de déchiffrer la trame et aucune
+erreur n'est détectée :
+
+![Déchiffrement avec Wireshark](figures/2_wireshark_decrypt.png)
+
 ### Quelques éléments à considérer :
 
 - Vous pouvez utiliser la même trame fournie comme « template » pour votre trame forgée (conseillé). Il faudra mettre à jour le champ de données qui transporte le message (`wepdata`) et le contrôle d’intégrite (`icv`).
@@ -100,6 +105,11 @@ Résultats:
 Script: `files/manual-fragmentation.py`
 
 Fichier créé par le script: `files/fragmented.pcap`
+
+On peut constater que Wireshark est en mesure de déchiffrer et défragmenter
+correctement la trame : 
+
+![Déchiffrement et défragmentation avec Wireshark](figures/3_wireshark_decrypt_defrag.png)
 
 ## Livrables
 
