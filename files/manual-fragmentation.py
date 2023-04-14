@@ -21,12 +21,16 @@ key= b'\xaa\xaa\xaa\xaa\xaa'
 
 # lecture d'un message existant pour avoir un template
 arp = rdpcap('arp.cap')[0]  
+# Mise à None du champ de longueur de la trame. Si la longueur ne coincide pas
+# avec la longueur réelle de la trame qui sera modifiée, la trame sera considérée
+# comme invalide. En la mettant à None, Scapy la recalculera automatiquement
+# avant de la générer
 arp[RadioTap].len = None
 
 # rc4 seed est composé de IV+clé
 seed = arp.iv+key
 
-# divine un message en n partie
+# divise un message en n partie
 def split_string(string, n):
     # Calculer la longueur de chaque sous-chaîne
     split_size = len(string) // n
@@ -39,8 +43,6 @@ def split_string(string, n):
 # Message à chiffrer
 # Il s'agit du même message que dans manual_encryption mais avec des bytes
 # modifiées en '0xca0xfe'
-
-
 message_plain = b'\xaa\xaa\x03\x00\x00\x00\x08\x06\x00\x01\x08\x00\x06\x04\x00\x01\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xfe\xca\xca\xfe\xca'
 
 nb_frag = 3
@@ -51,7 +53,9 @@ frags = split_string(message_plain, nb_frag)
 # RC4
 cipher = RC4(seed, streaming=False)
 
+# Génère les fragments de trame
 for i in range(0, nb_frag):
+    # copie la trame originale comme template
     arp_f = arp
 
     # Set le numéro de séquence
