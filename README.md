@@ -78,9 +78,11 @@ Un fork du repo original . Puis, un Pull Request contenant :
     
     - ![tram_encrypted.jpg](screenshots/tram_encrypted.jpg)
 -	Script de fragmentation **abondamment commenté/documenté**
+    - [manual_frag_enc.py](files/manual_frag_enc.py)
   - Fichier pcap généré par votre script contenant les fragments
+      - [forged_tram_frag.pcap](files/forged_tram_frag.pcap)
   - Capture d’écran de vos trames importées et déchiffrés par Wireshark 
-
+    - ![output_frag_encryption.jpg](screenshots/output_frag_encryption.jpg)
 -	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant
 
 
