@@ -70,8 +70,13 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 Un fork du repo original . Puis, un Pull Request contenant :
 
 -	Script de chiffrement WEP **abondamment commenté/documenté**
+    - [manual-encryption.py](files/manual-encryption.py)
   - Fichier pcap généré par votre script contenant la trame chiffrée
+    - [forged_tram.pcap](files/forged_tram.pcap)
   - Capture d’écran de votre trame importée et déchiffré par Wireshark
+    - ![output_manual_encryption.jpg](screenshots/output_manual_encryption.jpg)
+    
+    - ![tram_encrypted.jpg](screenshots/tram_encrypted.jpg)
 -	Script de fragmentation **abondamment commenté/documenté**
   - Fichier pcap généré par votre script contenant les fragments
   - Capture d’écran de vos trames importées et déchiffrés par Wireshark 
