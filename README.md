@@ -41,6 +41,11 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
 Vous devrez donc créer votre message, calculer le contrôle d’intégrité (ICV), et les chiffrer (voir slides du cours pour les détails).
 
+Capture de la trame WEP déchiffrée par wireshark :
+
+![Capture déchiffrée par wireshark](./files/CaptureEncryptionWEP.PNG)
+
+Comme on peut le voir en bas à droite de la capture, le champ `data` est déchiffré. On peut donc voir les différentes en-têtes que nous avons configuré dans le script (LLC, SNAP, etc...). Nous pouvons aussi voir l'adresse MAC en clair du `sender` dans les données (`00:11:22:33:44:55`), ce qui montre bien que la trame a été déchiffrée correctement.
 
 ### Quelques éléments à considérer :
 
@@ -64,6 +69,12 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 - Pour vérifier que cette partie fonctionne, vous pouvez importer vos fragments dans Wireshark, qui doit être capable de les recomposer
 - Pour un test encore plus intéressant (optionnel), vous pouvez utiliser un AP (disponible sur demande) et envoyer vos fragments. Pour que l’AP accepte vous données injectées, il faudra faire une « fake authentication » que vous pouvez faire avec `aireplay-ng`
 - Si l’AP accepte vos fragments, il les recomposera et les retransmettra en une seule trame non-fragmentée !
+
+Capture de la trame WEP fragmentée et déchiffrée par wireshark :
+
+![Capture déchiffrée par wireshark](./files/CaptureFragsEncryptionWEP.PNG)
+
+On peut voir que plusieurs fragments ont été capturé par wireshark, les deux premiers fragments ont comme protocole `802.11` car wireshark ne peut pas comprendre les trames déchiffrées vu qu'il s'agit de fragments. Mais au 3ème fragment on peut voir qu'il arrive enfin complètement déchiffrer la trame.
 
 ## Livrables
 
