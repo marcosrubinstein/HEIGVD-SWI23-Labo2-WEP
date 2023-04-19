@@ -29,18 +29,52 @@ Dans cette partie, vous allez récupérer le script Python [manual-decryption.py
 - Ouvrir le fichier de capture [arp.cap](files/arp.cap) avec Wireshark
    
 - Utiliser Wireshark pour déchiffrer la capture. Pour cela, il faut configurer dans Wireshark la clé de chiffrement/déchiffrement WEP (Dans Wireshark : Preferences&rarr;Protocols&rarr;IEEE 802.11&rarr;Decryption Keys). Il faut également activer le déchiffrement dans la fenêtre IEEE 802.11 (« Enable decryption »). Vous trouverez la clé dans le script Python [manual-decryption.py](files/manual-decryption.py).
+
+Résultat : 
    
+![Déchiffrement avec Wireshark](figures/1_wireshark_decrypt.png)
+
 - Exécuter le script avec `python manual-decryption.py`
+
+Résultat du script :
+
+```
+$ python manual-decryption.py 
+Text: aaaa03000000080600010800060400019027e4ea61f2c0a80164000000000000c0a801c8
+icv:  cc88cbb2
+icv(num): (3431517106,)
+```
+
    
 - Comparer la sortie du script avec la capture text déchiffrée par Wireshark
+
+On peut constater que les sorties sont similaires.
    
 - Analyser le fonctionnement du script
+
+Analyse du script manual-decryption.py :
+
+Le script charge le fichier arp.cap puis initialise la seed qui est composée de
+l'IV concaténée à la clé WEP, qui est 'AA:AA:AA:AA:AA' (sans les ':'). Le script
+récupère ensuite l'ICV qui est envoyé avec la trame mais chiffré. Le message
+ainsi que l'ICV sont ensuite passé dans RC4 être déchiffrés grâce à la seed. Le
+tout est ensuite affiché.
 
 ### 2. Chiffrement manuel de WEP
 
 Utilisant le script [manual-decryption.py](files/manual-decryption.py) comme guide, créer un nouveau script `manual-encryption.py` capable de chiffrer un message, l’enregistrer dans un fichier pcap et l’envoyer.
 Vous devrez donc créer votre message, calculer le contrôle d’intégrité (ICV), et les chiffrer (voir slides du cours pour les détails).
 
+Résultats : 
+
+Script `files/manual-encryption.py`
+
+Fichier généré par le script: `files/encrypted.pcap`
+
+On peut constater que Wireshark est en mesure de déchiffrer la trame et aucune
+erreur n'est détectée :
+
+![Déchiffrement avec Wireshark](figures/2_wireshark_decrypt.png)
 
 ### Quelques éléments à considérer :
 
@@ -65,16 +99,28 @@ Dans cette partie, vous allez enrichir votre script développé dans la partie p
 - Pour un test encore plus intéressant (optionnel), vous pouvez utiliser un AP (disponible sur demande) et envoyer vos fragments. Pour que l’AP accepte vous données injectées, il faudra faire une « fake authentication » que vous pouvez faire avec `aireplay-ng`
 - Si l’AP accepte vos fragments, il les recomposera et les retransmettra en une seule trame non-fragmentée !
 
+
+Résultats:
+
+Script: `files/manual-fragmentation.py`
+
+Fichier créé par le script: `files/fragmented.pcap`
+
+On peut constater que Wireshark est en mesure de déchiffrer et défragmenter
+correctement la trame : 
+
+![Déchiffrement et défragmentation avec Wireshark](figures/3_wireshark_decrypt_defrag.png)
+
 ## Livrables
 
 Un fork du repo original . Puis, un Pull Request contenant :
 
--	Script de chiffrement WEP **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant la trame chiffrée
-  - Capture d’écran de votre trame importée et déchiffré par Wireshark
--	Script de fragmentation **abondamment commenté/documenté**
-  - Fichier pcap généré par votre script contenant les fragments
-  - Capture d’écran de vos trames importées et déchiffrés par Wireshark 
+-	[X] Script de chiffrement WEP **abondamment commenté/documenté**
+  - [X] Fichier pcap généré par votre script contenant la trame chiffrée
+  - [X] Capture d’écran de votre trame importée et déchiffré par Wireshark
+-	[X] Script de fragmentation **abondamment commenté/documenté**
+  - [X] Fichier pcap généré par votre script contenant les fragments
+  - [X] Capture d’écran de vos trames importées et déchiffrés par Wireshark 
 
 -	Envoyer le hash du commit et votre username GitHub par email au professeur et à l'assistant
 
