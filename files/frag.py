@@ -10,7 +10,6 @@ __version__ 	= "1.0"
 __email__ 		= "pascal.perrenoud@heig-vd.ch, hugo.jeanneret@heig-vd.ch"
 __status__ 		= "Final"
 
-# Imports
 from scapy.all import *
 import binascii
 from rc4 import RC4
@@ -56,7 +55,7 @@ key = b'\xaa\xaa\xaa\xaa\xaa'
 # Payload
 data = b'\xaa\xaa\x03\x00\x00\x00\x08\x06\x00\x01\x08\x00\x06\x04\x00\x01\xca\xfe\xca\xfe\xca\xfe\xff\xff\xff\xff\xff\xfe\xca\xfe\xca\xfe\x7f\x00\x00\x01'
 
-# Split le payload en 3 parties
+# Split le payload en morceaux égaux
 PCK_COUNT = 3
 PCK_LEN = math.ceil(len(data) / PCK_COUNT)
 data = [data[PCK_LEN*i:(i+1)*PCK_LEN] for i in range(PCK_COUNT)]
@@ -65,5 +64,5 @@ data = [data[PCK_LEN*i:(i+1)*PCK_LEN] for i in range(PCK_COUNT)]
 print(f"Génération de {len(data)} fragments")
 pckts = [gen_pck(arp, key, d, i, len(data)) for i, d in enumerate(data)]
 
-# Écriture des nouveaux paquet
+# Écriture des nouveaux paquets
 wrpcap('frag.cap', pckts)
