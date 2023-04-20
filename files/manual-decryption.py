@@ -13,32 +13,32 @@ __status__ 		= "Prototype"
 from scapy.all import *
 import binascii
 from rc4 import RC4
-#Cle wep AA:AA:AA:AA:AA
+
+# Clé wep : AA:AA:AA:AA:AA
 key= b'\xaa\xaa\xaa\xaa\xaa'
 
-#lecture de message chiffré - rdpcap retourne toujours un array, même si la capture contient un seul paquet
-arp = rdpcap('arp.cap')[0]  
+# lecture de message chiffré - rdpcap retourne toujours un array, même si la capture contient un seul paquet
+arp = rdpcap('manual.cap')[0]
 
 # rc4 seed est composé de IV+clé
 seed = arp.iv+key
 
-# recuperation de icv dans le message (arp.icv) (en chiffre) -- je passe au format "text". Il y a d'autres manières de faire ceci...
-icv_encrypted='{:x}'.format(arp.icv)
+# Récuperation de icv dans le message (arp.icv) (en chiffre) -- je passe au format "text". Il y a d'autres manières de faire ceci...
+icv_encrypted = '{:x}'.format(arp.icv)
 
-# text chiffré y-compris l'icv
-message_encrypted=arp.wepdata+bytes.fromhex(icv_encrypted)
+# Texte chiffré, y-compris l'icv
+message_encrypted = arp.wepdata + bytes.fromhex(icv_encrypted)
 
-# déchiffrement rc4
+# Déchiffrement avec RC4
 cipher = RC4(seed, streaming=False)
-cleartext=cipher.crypt(message_encrypted)
+cleartext = cipher.crypt(message_encrypted)
 
-# le ICV est les derniers 4 octets - je le passe en format Long big endian
-icv_enclair=cleartext[-4:]
-icv_enclair = icv_enclair
-icv_numerique=struct.unpack('!L', icv_enclair)
+# L'ICV est les derniers 4 octets - je le passe en format Long big endian
+icv_enclair = cleartext[-4:]
+icv_numerique = struct.unpack('!L', icv_enclair)
 
-# le message sans le ICV
-text_enclair=cleartext[:-4]
+# Le message, sans l'ICV
+text_enclair = cleartext[:-4]
 
 print ('Text: ' + text_enclair.hex())
 print ('icv:  ' + icv_enclair.hex())
